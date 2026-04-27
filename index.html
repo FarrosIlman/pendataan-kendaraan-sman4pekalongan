@@ -6,6 +6,7 @@
   <title>Pendataan Kendaraan Pegawai - SMAN 4 Pekalongan</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     * { font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -15,6 +16,8 @@
     .btn-primary { background-color: #DC2626; transition: all 0.2s; }
     .btn-primary:hover { background-color: #B91C1C; transform: translateY(-1px); }
     .btn-primary:active { transform: translateY(0); }
+    /* Custom style untuk list agar lebih rapi */
+    .ketentuan-list li { margin-bottom: 0.5rem; display: flex; gap: 0.5rem; }
   </style>
  </head>
  <body class="bg-gray-50 text-gray-800 antialiased h-full">
@@ -39,16 +42,32 @@
 
    <main class="flex-1 max-w-4xl mx-auto w-full py-6 px-4">
     
-    <section class="bg-blue-50 border border-blue-100 rounded-2xl p-5 mb-6 fade-in">
-     <div class="flex gap-3">
-      <i data-lucide="info" class="text-blue-600 flex-shrink-0 mt-1" style="width:20px;height:20px;"></i>
-      <div>
-       <h3 class="font-bold text-blue-900 text-sm mb-1">Instruksi Pengisian</h3>
-       <p class="text-xs text-blue-800 leading-relaxed">
-        Pilih nama Anda, isi alamat domisili, lalu tambahkan data kendaraan (bisa lebih dari satu). Gunakan <strong>HURUF KAPITAL</strong> untuk Nomor Polisi.
-       </p>
-      </div>
+    <section class="bg-white border border-red-100 rounded-2xl p-6 mb-6 shadow-sm fade-in">
+     <div class="flex items-center gap-2 mb-4 text-red-600">
+      <i data-lucide="alert-circle" style="width:20px;height:20px;"></i>
+      <h2 class="font-extrabold text-sm uppercase tracking-wider">BACA KETENTUAN!</h2>
      </div>
+     <p class="text-xs text-gray-600 mb-4 leading-relaxed">
+      Silakan isi data kendaraan bermotor yang dimiliki, dikuasai, atau digunakan. Setiap pegawai dapat menginput lebih dari satu kendaraan sesuai kondisi sebenarnya. Pastikan data yang diisi benar dan terbaru.
+     </p>
+     <ul class="ketentuan-list text-[11px] text-gray-700 leading-relaxed">
+      <li><strong>1. NAMA:</strong> Diisi dengan nama setiap Pegawai.</li>
+      <li><strong>2. ALAMAT:</strong> Diisi dengan alamat tempat tinggal Pegawai sekarang.</li>
+      <li><strong>3. NOMOR POLISI:</strong> Diisi untuk seluruh kendaraan bermotor sesuai status dengan penulisan huruf KAPITAL. Contoh: G 1234 WA.</li>
+      <li><strong>4. NOMOR TELEPON:</strong> 
+        <div class="ml-1 italic">
+          • Dimiliki & Dikuasai: No. HP Pegawai <br>
+          • Digunakan: No. HP pemilik + No. HP pegawai
+        </div>
+      </li>
+      <li><strong>5. STATUS:</strong>
+        <div class="ml-1">
+          • <strong>Dimiliki:</strong> Dokumen atas nama Pegawai sendiri.<br>
+          • <strong>Dikuasai:</strong> Pegawai memiliki namun dokumen atas nama orang lain.<br>
+          • <strong>Digunakan:</strong> Menggunakan milik orang lain atau milik sendiri digunakan orang lain.
+        </div>
+      </li>
+     </ul>
     </section>
 
     <section class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden fade-in">
@@ -99,7 +118,6 @@
         <i data-lucide="save" style="width:18px;height:18px;"></i>
         SIMPAN DATA SEKARANG
        </button>
-       <div id="form-msg" class="hidden mt-4 text-xs font-bold text-center py-4 rounded-xl transition-all"></div>
       </div>
      </form>
     </section>
@@ -111,10 +129,8 @@
   </div>
 
   <script>
-    // 1. KONFIGURASI: Ganti dengan URL Web App Google Script Anda
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbynRdKuln82L458kIJUxCyvGlASByLzuXC8eCO1Z8zy849mZjSjNi2xv6IMQP8FhYbI/exec";
 
-    // 2. DATA PEGAWAI
     const hardcodedTeachers = [
       { nama: "WACHID MUCHAROM, S.Pd, M.Pd", nip: "19700308 199702 1 002" },
       { nama: "SUHADI, M.Pd.", nip: "19690429 199403 1 004" },
@@ -181,7 +197,6 @@
       { nama: "MUCHAMMAD FARROS ILMAN HAQ", nip: "-" }
     ]
 
-    // Initialize App
     document.addEventListener('DOMContentLoaded', () => {
       initTeacherDropdown();
       lucide.createIcons();
@@ -189,7 +204,6 @@
 
     function initTeacherDropdown() {
       const select = document.getElementById('f-nama');
-      // Sortir nama biar rapi
       hardcodedTeachers.sort((a,b) => a.nama.localeCompare(b.nama)).forEach(t => {
         const opt = document.createElement('option');
         opt.value = t.nama;
@@ -199,13 +213,11 @@
       });
     }
 
-    // Auto-fill NIP
     document.getElementById('f-nama').addEventListener('change', (e) => {
       const nip = e.target.options[e.target.selectedIndex].dataset.nip || '';
       document.getElementById('f-nip').value = nip;
     });
 
-    // Add Vehicle Row
     document.getElementById('btn-add-vehicle').addEventListener('click', () => {
       document.getElementById('empty-vehicle-state').classList.add('hidden');
       const id = `v-${Date.now()}`;
@@ -234,9 +246,9 @@
             <div>
               <label class="text-[10px] font-extrabold text-gray-500 uppercase tracking-wider">Status Pemakaian</label>
               <select class="v-status w-full mt-1.5 px-3 py-2.5 rounded-lg border border-gray-200 text-sm bg-white input-focus" required>
-                <option value="Dimiliki">Milik Pribadi</option>
-                <option value="Digunakan">Hanya Digunakan</option>
-                <option value="Dikuasai">Dikuasai (Dinas/Lainnya)</option>
+                <option value="Dimiliki">Dimiliki</option>
+                <option value="Dikuasai">Dikuasai</option>
+                <option value="Digunakan">Digunakan</option>
               </select>
             </div>
             <div>
@@ -262,20 +274,18 @@
       }
     };
 
-    // Handle Form Submit
     document.getElementById('staff-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = document.getElementById('btn-submit');
-      const msg = document.getElementById('form-msg');
       const vehicleEls = document.querySelectorAll('#vehicles-container > div');
       
       if (vehicleEls.length === 0) {
-        alert("Silakan tambah minimal 1 data kendaraan.");
+        Swal.fire({ icon: 'warning', title: 'Kendaraan Kosong', text: 'Silakan tambah minimal 1 data kendaraan.' });
         return;
       }
 
       btn.disabled = true;
-      btn.innerHTML = `<span class="inline-block animate-spin mr-2">◌</span> MENGIRIM DATA...`;
+      btn.innerHTML = `<span class="inline-block animate-spin mr-2">◌</span> MENGIRIM...`;
 
       const vehicles = Array.from(vehicleEls).map(v => ({
         jenis: v.querySelector('.v-jenis').value,
@@ -298,28 +308,28 @@
       };
 
       try {
-        // Menggunakan Fetch API ke Google Apps Script
         await fetch(SCRIPT_URL, {
           method: 'POST',
           mode: 'no-cors', 
-          cache: 'no-cache',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(record)
         });
 
-        // Sukses Flow
-        msg.innerHTML = `<i data-lucide="check-circle" class="inline mr-2" style="width:16px;height:16px;"></i> Data Berhasil Disimpan di Google Sheets!`;
-        msg.className = "mt-4 text-xs font-bold text-center py-4 rounded-xl bg-green-50 text-green-600 block fade-in";
-        
+        // SweetAlert Sukses
+        Swal.fire({
+          icon: 'success',
+          title: 'Berhasil!',
+          text: 'Data Anda telah tersimpan di sistem.',
+          confirmButtonColor: '#DC2626'
+        });
+
         document.getElementById('staff-form').reset();
         document.getElementById('vehicles-container').innerHTML = '';
         document.getElementById('empty-vehicle-state').classList.remove('hidden');
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        lucide.createIcons();
 
       } catch (err) {
-        msg.innerHTML = `<i data-lucide="alert-triangle" class="inline mr-2" style="width:16px;height:16px;"></i> Terjadi gangguan koneksi. Coba lagi.`;
-        msg.className = "mt-4 text-xs font-bold text-center py-4 rounded-xl bg-red-50 text-red-600 block fade-in";
+        Swal.fire({ icon: 'error', title: 'Oops...', text: 'Terjadi kesalahan. Silakan coba lagi.' });
       } finally {
         btn.disabled = false;
         btn.innerHTML = `<i data-lucide="save" style="width:18px;height:18px;"></i> SIMPAN DATA SEKARANG`;
