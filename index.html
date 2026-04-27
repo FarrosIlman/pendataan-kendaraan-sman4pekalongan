@@ -26,21 +26,21 @@
       outline: none; 
     }
     
-    /* Tombol Utama Premium - Adjusted Height */
+    /* Tombol Utama Premium - Extra Large Edition */
     .btn-submit-premium {
       background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
-      box-shadow: 0 4px 15px -1px rgba(239, 68, 68, 0.4);
+      box-shadow: 0 6px 20px -2px rgba(239, 68, 68, 0.45);
       position: relative;
       overflow: hidden;
     }
     .btn-submit-premium:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 20px -2px rgba(239, 68, 68, 0.5);
+      transform: translateY(-3px);
+      box-shadow: 0 15px 25px -5px rgba(239, 68, 68, 0.5);
       filter: brightness(1.1);
     }
     .btn-submit-premium:active {
-      transform: translateY(0);
-      box-shadow: 0 4px 10px -1px rgba(239, 68, 68, 0.4);
+      transform: translateY(-1px);
+      box-shadow: 0 5px 12px -1px rgba(239, 68, 68, 0.4);
     }
 
     /* Tombol Tambah Soft */
@@ -177,9 +177,9 @@
        </div>
       </div>
 
-      <div class="pt-8 pb-4">
-       <button id="btn-submit" type="submit" class="btn-submit-premium w-full text-white font-extrabold text-sm py-5.5 rounded-2xl flex items-center justify-center gap-3 tracking-[0.2em] transition-all">
-        <i data-lucide="check-square" class="w-5 h-5"></i>
+      <div class="pt-8 pb-6">
+       <button id="btn-submit" type="submit" class="btn-submit-premium w-full text-white font-extrabold text-base py-6.5 rounded-3xl flex items-center justify-center gap-4 tracking-[0.3em] transition-all">
+        <i data-lucide="check-square" class="w-6 h-6"></i>
         SUBMIT DATA SEKARANG
        </button>
       </div>
@@ -355,7 +355,7 @@
       }
 
       btn.disabled = true;
-      btn.innerHTML = `<span class="animate-pulse tracking-widest">SINKRONISASI...</span>`;
+      btn.innerHTML = `<span class="animate-pulse tracking-widest uppercase text-xs">Processing...</span>`;
 
       const vehicles = Array.from(vehicleEls).map(v => ({
         jenis: v.querySelector('.v-jenis').value,
