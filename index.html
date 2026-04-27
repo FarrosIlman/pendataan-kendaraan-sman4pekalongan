@@ -7,123 +7,170 @@
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    * { font-family: 'Plus Jakarta Sans', sans-serif; }
-    .fade-in { animation: fadeIn 0.4s ease-out; }
-    @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
-    .input-focus:focus { border-color: #DC2626 !important; box-shadow: 0 0 0 3px rgba(220,38,38,0.1) !important; outline: none; }
-    .btn-primary { background-color: #DC2626; transition: all 0.2s; }
-    .btn-primary:hover { background-color: #B91C1C; transform: translateY(-1px); }
-    .btn-primary:active { transform: translateY(0); }
-    /* Custom style untuk list agar lebih rapi */
-    .ketentuan-list li { margin-bottom: 0.5rem; display: flex; gap: 0.5rem; }
+    * { font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.2s ease; }
+    body { background-color: #f8fafc; }
+    .fade-in { animation: fadeIn 0.5s ease-out; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+    
+    .glass-card { 
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+    }
+    
+    .input-focus:focus { 
+      border-color: #ef4444 !important; 
+      box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important; 
+      outline: none; 
+    }
+    
+    .btn-gradient {
+      background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+    }
+    .btn-gradient:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3);
+    }
+    
+    .instruction-step {
+      display: flex;
+      gap: 12px;
+      padding: 8px 0;
+    }
+    .step-number {
+      width: 20px; height: 20px;
+      background: #fee2e2;
+      color: #b91c1c;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 800; flex-shrink: 0;
+    }
   </style>
  </head>
- <body class="bg-gray-50 text-gray-800 antialiased h-full">
+ <body class="text-slate-800 antialiased h-full">
   <div id="app" class="min-h-screen flex flex-col">
    
-   <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
-    <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-     <div class="flex items-center gap-3">
-      <div class="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center flex-shrink-0">
-       <i data-lucide="shield" class="text-white" style="width:22px;height:22px;"></i>
+   <header class="bg-white/80 border-b border-slate-200 sticky top-0 z-50 backdrop-blur-md">
+    <div class="max-w-4xl mx-auto px-5 py-4 flex items-center justify-between">
+     <div class="flex items-center gap-4">
+      <div class="w-11 h-11 bg-red-600 rounded-xl flex items-center justify-center shadow-lg shadow-red-200 rotate-3 group hover:rotate-0 transition-transform">
+       <i data-lucide="shield" class="text-white w-6 h-6"></i>
       </div>
       <div>
-       <h1 class="text-base sm:text-lg font-bold text-gray-900 leading-tight">Pendataan Kendaraan</h1>
-       <p class="text-[10px] sm:text-xs text-gray-500 font-medium uppercase tracking-wider">SMA Negeri 4 Pekalongan</p>
+       <h1 class="text-lg font-extrabold text-slate-900 leading-none">E-Kendaraan</h1>
+       <p class="text-[10px] text-slate-500 font-bold uppercase tracking-tighter mt-1">SMAN 4 Pekalongan</p>
       </div>
      </div>
-     <div class="flex items-center gap-1.5 text-[10px] font-bold text-green-600 bg-green-50 px-3 py-1.5 rounded-full">
-       <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> SISTEM ONLINE
+     <div class="flex items-center gap-2 text-[10px] font-bold text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-100">
+       <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> ONLINE
      </div>
     </div>
    </header>
 
-   <main class="flex-1 max-w-4xl mx-auto w-full py-6 px-4">
+   <main class="flex-1 max-w-4xl mx-auto w-full py-8 px-5">
     
-    <section class="bg-white border border-red-100 rounded-2xl p-6 mb-6 shadow-sm fade-in">
-     <div class="flex items-center gap-2 mb-4 text-red-600">
-      <i data-lucide="alert-circle" style="width:20px;height:20px;"></i>
-      <h2 class="font-extrabold text-sm uppercase tracking-wider">BACA KETENTUAN!</h2>
+    <section class="glass-card rounded-3xl p-6 mb-8 border-l-4 border-l-red-600 shadow-xl shadow-slate-100 fade-in">
+     <div class="flex items-center gap-3 mb-5">
+      <div class="bg-red-100 p-2 rounded-lg">
+        <i data-lucide="info" class="text-red-600 w-5 h-5"></i>
+      </div>
+      <h2 class="font-extrabold text-sm text-slate-900 tracking-tight">KONTROL & KETENTUAN DATA</h2>
      </div>
-     <p class="text-xs text-gray-600 mb-4 leading-relaxed">
-      Silakan isi data kendaraan bermotor yang dimiliki, dikuasai, atau digunakan. Setiap pegawai dapat menginput lebih dari satu kendaraan sesuai kondisi sebenarnya. Pastikan data yang diisi benar dan terbaru.
-     </p>
-     <ul class="ketentuan-list text-[11px] text-gray-700 leading-relaxed">
-      <li><strong>1. NAMA:</strong> Diisi dengan nama setiap Pegawai.</li>
-      <li><strong>2. ALAMAT:</strong> Diisi dengan alamat tempat tinggal Pegawai sekarang.</li>
-      <li><strong>3. NOMOR POLISI:</strong> Diisi untuk seluruh kendaraan bermotor sesuai status dengan penulisan huruf KAPITAL. Contoh: G 1234 WA.</li>
-      <li><strong>4. NOMOR TELEPON:</strong> 
-        <div class="ml-1 italic">
-          • Dimiliki & Dikuasai: No. HP Pegawai <br>
-          • Digunakan: No. HP pemilik + No. HP pegawai
-        </div>
-      </li>
-      <li><strong>5. STATUS:</strong>
-        <div class="ml-1">
-          • <strong>Dimiliki:</strong> Dokumen atas nama Pegawai sendiri.<br>
-          • <strong>Dikuasai:</strong> Pegawai memiliki namun dokumen atas nama orang lain.<br>
-          • <strong>Digunakan:</strong> Menggunakan milik orang lain atau milik sendiri digunakan orang lain.
-        </div>
-      </li>
-     </ul>
+     
+     <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
+       <div class="instruction-step">
+         <div class="step-number">1</div>
+         <p class="text-[11px] text-slate-600 leading-relaxed"><span class="font-bold text-slate-800 uppercase">Nama & Alamat:</span> Pilih identitas resmi dan isi alamat domisili saat ini secara lengkap.</p>
+       </div>
+       <div class="instruction-step">
+         <div class="step-number">2</div>
+         <p class="text-[11px] text-slate-600 leading-relaxed"><span class="font-bold text-slate-800 uppercase">Plat Nomor:</span> Wajib KAPITAL sesuai STNK (Contoh: G 1234 WA).</p>
+       </div>
+       <div class="instruction-step">
+         <div class="step-number">3</div>
+         <p class="text-[11px] text-slate-600 leading-relaxed"><span class="font-bold text-slate-800 uppercase">Status:</span> <b>Dimiliki</b> (Pribadi), <b>Dikuasai</b> (An. orang lain), <b>Digunakan</b> (Hanya pemakai).</p>
+       </div>
+       <div class="instruction-step">
+         <div class="step-number">4</div>
+         <p class="text-[11px] text-slate-600 leading-relaxed"><span class="font-bold text-slate-800 uppercase">Kontak:</span> Masukkan nomor WhatsApp aktif untuk keperluan koordinasi parkir/keamanan.</p>
+       </div>
+     </div>
     </section>
 
-    <section class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden fade-in">
-     <div class="p-5 border-b border-gray-100 bg-gray-50/50">
-      <h2 class="text-sm font-bold text-gray-900 flex items-center gap-2">
-       <i data-lucide="user-plus" class="text-red-600" style="width:18px;height:18px;"></i>
-       Formulir Data Pegawai
+    <section class="glass-card rounded-[2rem] shadow-2xl shadow-slate-200 overflow-hidden fade-in border border-slate-200">
+     <div class="p-6 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
+      <h2 class="text-sm font-extrabold text-slate-900 flex items-center gap-2.5">
+       <i data-lucide="file-text" class="text-red-600 w-5 h-5"></i>
+       Formulir Inventarisasi Pegawai
       </h2>
+      <span class="text-[10px] font-bold text-slate-400">BAGIAN KEPEGAWAIAN</span>
      </div>
 
-     <form id="staff-form" class="p-5 sm:p-8 space-y-6">
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-       <div class="space-y-1.5">
-        <label class="text-xs font-bold text-gray-700 uppercase">Nama Pegawai <span class="text-red-500">*</span></label>
-        <select id="f-nama" required class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm bg-white input-focus">
-         <option value="">-- Pilih Nama --</option>
-        </select>
-       </div>
-       <div class="space-y-1.5">
-        <label class="text-xs font-bold text-gray-700 uppercase">NIP / ID</label>
-        <input id="f-nip" type="text" readonly placeholder="Otomatis" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm bg-gray-50 text-gray-500 outline-none">
-       </div>
+     <form id="staff-form" class="p-6 sm:p-10 space-y-8">
+      <div class="space-y-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+         <div class="space-y-2">
+          <label class="text-[11px] font-extrabold text-slate-500 uppercase ml-1">Nama Lengkap Pegawai</label>
+          <select id="f-nama" required class="w-full px-4 py-3.5 rounded-2xl border border-slate-200 text-sm bg-white input-focus font-medium">
+           <option value="">-- Pilih Nama Anda --</option>
+          </select>
+         </div>
+         <div class="space-y-2">
+          <label class="text-[11px] font-extrabold text-slate-500 uppercase ml-1">Nomor Induk Pegawai</label>
+          <input id="f-nip" type="text" readonly placeholder="Otomatis" class="w-full px-4 py-3.5 rounded-2xl border border-slate-200 text-sm bg-slate-50 text-slate-400 outline-none font-mono">
+         </div>
+        </div>
+
+        <div class="space-y-2">
+         <label class="text-[11px] font-extrabold text-slate-500 uppercase ml-1">Alamat Tinggal Sekarang</label>
+         <div class="relative">
+           <i data-lucide="map-pin" class="absolute left-4 top-3.5 text-slate-400 w-4 h-4"></i>
+           <input id="f-alamat" type="text" required placeholder="Masukkan alamat lengkap" class="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-slate-200 text-sm bg-white input-focus font-medium">
+         </div>
+        </div>
       </div>
 
-      <div class="space-y-1.5">
-       <label class="text-xs font-bold text-gray-700 uppercase">Alamat Domisili <span class="text-red-500">*</span></label>
-       <input id="f-alamat" type="text" required placeholder="Alamat lengkap tempat tinggal saat ini" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm bg-white input-focus">
-      </div>
+      <hr class="border-slate-100">
 
-      <div class="pt-4">
-       <div class="flex items-center justify-between mb-4">
-        <h3 class="text-xs font-extrabold text-gray-400 uppercase tracking-widest">Daftar Kendaraan</h3>
-        <button type="button" id="btn-add-vehicle" class="text-xs font-bold text-red-600 flex items-center gap-1 hover:underline transition-all">
-         <i data-lucide="plus-circle" style="width:16px;height:16px;"></i> Tambah Kendaraan
+      <div class="space-y-6">
+       <div class="flex items-center justify-between">
+        <div class="space-y-0.5">
+          <h3 class="text-sm font-extrabold text-slate-900 tracking-tight">Data Unit Kendaraan</h3>
+          <p class="text-[10px] text-slate-400 font-medium italic">Klik tombol merah untuk menambah data</p>
+        </div>
+        <button type="button" id="btn-add-vehicle" class="text-[11px] font-extrabold bg-red-50 text-red-600 px-4 py-2 rounded-xl flex items-center gap-2 hover:bg-red-600 hover:text-white transition-all border border-red-100">
+         <i data-lucide="plus-circle" class="w-4 h-4"></i> TAMBAH
         </button>
        </div>
        
-       <div id="vehicles-container" class="space-y-4"></div>
+       <div id="vehicles-container" class="grid grid-cols-1 gap-4"></div>
 
-       <div id="empty-vehicle-state" class="text-center py-10 border-2 border-dashed border-gray-100 rounded-2xl bg-gray-50/30">
-        <i data-lucide="car" class="mx-auto text-gray-300 mb-2" style="width:32px;height:32px;"></i>
-        <p class="text-xs text-gray-400 font-medium">Belum ada kendaraan yang ditambahkan</p>
+       <div id="empty-vehicle-state" class="group text-center py-12 border-2 border-dashed border-slate-200 rounded-3xl bg-slate-50/50 hover:bg-white hover:border-red-200 transition-colors">
+        <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm border border-slate-100 group-hover:scale-110 transition-transform">
+          <i data-lucide="car" class="text-slate-300 group-hover:text-red-300 w-7 h-7"></i>
+        </div>
+        <p class="text-xs text-slate-400 font-bold uppercase tracking-widest">Belum ada kendaraan</p>
        </div>
       </div>
 
-      <div class="pt-6 border-t border-gray-100">
-       <button id="btn-submit" type="submit" class="btn-primary w-full text-white font-bold text-sm py-4 rounded-xl shadow-lg shadow-red-100 flex items-center justify-center gap-2 active:scale-[0.98]">
-        <i data-lucide="save" style="width:18px;height:18px;"></i>
-        SIMPAN DATA SEKARANG
+      <div class="pt-8">
+       <button id="btn-submit" type="submit" class="btn-gradient w-full text-white font-extrabold text-sm py-4.5 rounded-2xl shadow-xl flex items-center justify-center gap-3 tracking-wider">
+        <i data-lucide="check-square" class="w-5 h-5"></i>
+        SUBMIT DATA SEKARANG
        </button>
       </div>
      </form>
     </section>
     
-    <footer class="mt-12 mb-12 text-center">
-     <p class="text-[10px] text-gray-400 font-bold tracking-[0.2em] uppercase">© 2026 TIM IT SMAN 4 PEKALONGAN</p>
+    <footer class="mt-16 mb-12 text-center">
+     <div class="flex items-center justify-center gap-3 mb-3">
+       <div class="h-[1px] w-8 bg-slate-200"></div>
+       <i data-lucide="settings" class="text-slate-300 w-4 h-4 animate-spin-slow"></i>
+       <div class="h-[1px] w-8 bg-slate-200"></div>
+     </div>
+     <p class="text-[10px] text-slate-400 font-bold tracking-[0.3em] uppercase">Development by Tim IT SMAN 4 Pekalongan</p>
     </footer>
    </main>
   </div>
@@ -131,6 +178,7 @@
   <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbynRdKuln82L458kIJUxCyvGlASByLzuXC8eCO1Z8zy849mZjSjNi2xv6IMQP8FhYbI/exec";
 
+    // Data pegawai lengkap
     const hardcodedTeachers = [
       { nama: "WACHID MUCHAROM, S.Pd, M.Pd", nip: "19700308 199702 1 002" },
       { nama: "SUHADI, M.Pd.", nip: "19690429 199403 1 004" },
@@ -195,7 +243,7 @@
       { nama: "MUH. RIZAL KURNIAWAN", nip: "19900922 202521 1 065" },
       { nama: "AZAH UYUN WIDIYARTI, A.Md.Keb.", nip: "-" },
       { nama: "MUCHAMMAD FARROS ILMAN HAQ", nip: "-" }
-    ]
+    ];
 
     document.addEventListener('DOMContentLoaded', () => {
       initTeacherDropdown();
@@ -222,44 +270,44 @@
       document.getElementById('empty-vehicle-state').classList.add('hidden');
       const id = `v-${Date.now()}`;
       const html = `
-        <div id="${id}" class="bg-gray-50 border border-gray-200 rounded-2xl p-4 sm:p-5 space-y-4 relative fade-in shadow-sm">
-          <button type="button" onclick="removeVehicle('${id}')" class="absolute top-4 right-4 text-gray-400 hover:text-red-600 transition-colors">
-            <i data-lucide="trash-2" style="width:18px;height:18px;"></i>
+        <div id="${id}" class="bg-slate-50/80 border border-slate-200 rounded-[1.5rem] p-5 sm:p-7 space-y-6 relative fade-in">
+          <button type="button" onclick="removeVehicle('${id}')" class="absolute top-5 right-5 w-8 h-8 flex items-center justify-center rounded-full bg-white border border-slate-100 text-slate-400 hover:text-red-600 shadow-sm transition-all">
+            <i data-lucide="x" class="w-4 h-4"></i>
           </button>
           
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label class="text-[10px] font-extrabold text-gray-500 uppercase tracking-wider">Jenis Kendaraan</label>
-              <select class="v-jenis w-full mt-1.5 px-3 py-2.5 rounded-lg border border-gray-200 text-sm bg-white input-focus" required>
-                <option value="Motor">Motor</option>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div class="space-y-1.5">
+              <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest ml-1">Kategori Unit</label>
+              <select class="v-jenis w-full px-4 py-3 rounded-2xl border border-slate-200 text-sm bg-white input-focus font-medium">
+                <option value="Motor">Sepeda Motor</option>
                 <option value="Mobil">Mobil</option>
                 <option value="Lainnya">Lainnya</option>
               </select>
             </div>
-            <div>
-              <label class="text-[10px] font-extrabold text-gray-500 uppercase tracking-wider">No. Polisi (KAPITAL)</label>
-              <input type="text" class="v-nopol w-full mt-1.5 px-3 py-2.5 rounded-lg border border-gray-200 text-sm bg-white input-focus uppercase" placeholder="G 1234 XX" required>
+            <div class="space-y-1.5">
+              <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest ml-1">No. Polisi (STNK)</label>
+              <input type="text" class="v-nopol w-full px-4 py-3 rounded-2xl border border-slate-200 text-sm bg-white input-focus uppercase font-mono tracking-wider font-bold" placeholder="G 0000 XX">
             </div>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label class="text-[10px] font-extrabold text-gray-500 uppercase tracking-wider">Status Pemakaian</label>
-              <select class="v-status w-full mt-1.5 px-3 py-2.5 rounded-lg border border-gray-200 text-sm bg-white input-focus" required>
-                <option value="Dimiliki">Dimiliki</option>
-                <option value="Dikuasai">Dikuasai</option>
-                <option value="Digunakan">Digunakan</option>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div class="space-y-1.5">
+              <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest ml-1">Status Kepemilikan</label>
+              <select class="v-status w-full px-4 py-3 rounded-2xl border border-slate-200 text-sm bg-white input-focus font-medium">
+                <option value="Dimiliki">Milik Sendiri (An. Pegawai)</option>
+                <option value="Dikuasai">Dikuasai (An. Orang Lain)</option>
+                <option value="Digunakan">Digunakan (Hanya Pemakai)</option>
               </select>
             </div>
-            <div>
-              <label class="text-[10px] font-extrabold text-gray-500 uppercase tracking-wider">No. HP / WhatsApp</label>
-              <input type="tel" class="v-hp w-full mt-1.5 px-3 py-2.5 rounded-lg border border-gray-200 text-sm bg-white input-focus" placeholder="08xxxx" required>
+            <div class="space-y-1.5">
+              <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest ml-1">No. WhatsApp Aktif</label>
+              <input type="tel" class="v-hp w-full px-4 py-3 rounded-2xl border border-slate-200 text-sm bg-white input-focus font-medium" placeholder="08xxxxxxxx">
             </div>
           </div>
 
-          <div>
-            <label class="text-[10px] font-extrabold text-gray-500 uppercase tracking-wider">Keterangan (Warna/Merk/Kondisi)</label>
-            <input type="text" class="v-ket w-full mt-1.5 px-3 py-2.5 rounded-lg border border-gray-200 text-sm bg-white input-focus" placeholder="Misal: Vario Hitam / Pajak Hidup">
+          <div class="space-y-1.5">
+            <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest ml-1">Keterangan Khusus</label>
+            <input type="text" class="v-ket w-full px-4 py-3 rounded-2xl border border-slate-200 text-sm bg-white input-focus font-medium" placeholder="Contoh: Di luar kota, rusak, hilang, dll">
           </div>
         </div>
       `;
@@ -280,12 +328,18 @@
       const vehicleEls = document.querySelectorAll('#vehicles-container > div');
       
       if (vehicleEls.length === 0) {
-        Swal.fire({ icon: 'warning', title: 'Kendaraan Kosong', text: 'Silakan tambah minimal 1 data kendaraan.' });
+        Swal.fire({
+          icon: 'error',
+          title: 'Unit Kosong!',
+          text: 'Harap tambahkan minimal 1 data kendaraan yang Anda gunakan.',
+          confirmButtonText: 'Siap!',
+          confirmButtonColor: '#ef4444'
+        });
         return;
       }
 
       btn.disabled = true;
-      btn.innerHTML = `<span class="inline-block animate-spin mr-2">◌</span> MENGIRIM...`;
+      btn.innerHTML = `<span class="animate-pulse">SINKRONISASI DATA...</span>`;
 
       const vehicles = Array.from(vehicleEls).map(v => ({
         jenis: v.querySelector('.v-jenis').value,
@@ -315,12 +369,12 @@
           body: JSON.stringify(record)
         });
 
-        // SweetAlert Sukses
         Swal.fire({
           icon: 'success',
-          title: 'Berhasil!',
-          text: 'Data Anda telah tersimpan di sistem.',
-          confirmButtonColor: '#DC2626'
+          title: 'Berhasil Disimpan!',
+          text: 'Data telah diamankan ke server inventaris SMAN 4 Pekalongan.',
+          confirmButtonColor: '#b91c1c',
+          backdrop: `rgba(185, 28, 28, 0.1)`
         });
 
         document.getElementById('staff-form').reset();
@@ -329,10 +383,10 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
       } catch (err) {
-        Swal.fire({ icon: 'error', title: 'Oops...', text: 'Terjadi kesalahan. Silakan coba lagi.' });
+        Swal.fire({ icon: 'error', title: 'Gagal!', text: 'Koneksi terputus. Silakan periksa jaringan Anda.' });
       } finally {
         btn.disabled = false;
-        btn.innerHTML = `<i data-lucide="save" style="width:18px;height:18px;"></i> SIMPAN DATA SEKARANG`;
+        btn.innerHTML = `<i data-lucide="check-square" class="w-5 h-5"></i> SUBMIT DATA SEKARANG`;
         lucide.createIcons();
       }
     });
