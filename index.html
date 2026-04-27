@@ -26,7 +26,7 @@
       outline: none; 
     }
     
-    /* Tombol Utama Premium */
+    /* Tombol Utama Premium - Adjusted Height */
     .btn-submit-premium {
       background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
       box-shadow: 0 4px 15px -1px rgba(239, 68, 68, 0.4);
@@ -177,8 +177,8 @@
        </div>
       </div>
 
-      <div class="pt-8">
-       <button id="btn-submit" type="submit" class="btn-submit-premium w-full text-white font-extrabold text-sm py-4.5 rounded-2xl flex items-center justify-center gap-3 tracking-widest transition-all">
+      <div class="pt-8 pb-4">
+       <button id="btn-submit" type="submit" class="btn-submit-premium w-full text-white font-extrabold text-sm py-5.5 rounded-2xl flex items-center justify-center gap-3 tracking-[0.2em] transition-all">
         <i data-lucide="check-square" class="w-5 h-5"></i>
         SUBMIT DATA SEKARANG
        </button>
@@ -355,7 +355,7 @@
       }
 
       btn.disabled = true;
-      btn.innerHTML = `<span class="animate-pulse">SINKRONISASI DATA...</span>`;
+      btn.innerHTML = `<span class="animate-pulse tracking-widest">SINKRONISASI...</span>`;
 
       const vehicles = Array.from(vehicleEls).map(v => ({
         jenis: v.querySelector('.v-jenis').value,
