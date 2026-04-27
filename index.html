@@ -9,185 +9,242 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    * { font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.2s ease; }
-    body { background-color: #f8fafc; }
-    .fade-in { animation: fadeIn 0.5s ease-out; }
-    @keyframes fadeIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+    * { font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    body { background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); min-height: 100vh; }
+    .fade-in { animation: fadeIn 0.6s ease-out; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
     
     .glass-card { 
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(226, 232, 240, 0.8);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.92) 100%);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(226, 232, 240, 0.6);
+      box-shadow: 0 8px 32px -8px rgba(15, 23, 42, 0.08), 0 0 1px rgba(226, 232, 240, 0.5);
     }
     
     .input-focus:focus { 
       border-color: #ef4444 !important; 
-      box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important; 
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12) !important; 
       outline: none; 
     }
-    
-    /* Tombol Utama Premium - Extra Large Edition */
-    .btn-submit-premium {
-      background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
-      box-shadow: 0 6px 20px -2px rgba(239, 68, 68, 0.45);
-      position: relative;
-      overflow: hidden;
-    }
-    .btn-submit-premium:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 15px 25px -5px rgba(239, 68, 68, 0.5);
-      filter: brightness(1.1);
-    }
-    .btn-submit-premium:active {
-      transform: translateY(-1px);
-      box-shadow: 0 5px 12px -1px rgba(239, 68, 68, 0.4);
-    }
 
-    /* Tombol Tambah Soft */
-    .btn-add-soft {
-      background: #fff5f5;
-      color: #e53e3e;
-      border: 1.5px solid #feb2b2;
-    }
-    .btn-add-soft:hover {
-      background: #e53e3e;
-      color: white;
-      border-color: #e53e3e;
-      transform: scale(1.05);
+    .requirement-badge {
+      display: inline-block;
+      background: #fee2e2;
+      color: #b91c1c;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: 4px;
     }
 
     .instruction-step {
       display: flex;
       gap: 12px;
-      padding: 8px 0;
+      padding: 10px 0;
+      transition: transform 0.2s ease;
     }
+
+    .instruction-step:hover {
+      transform: translateX(4px);
+    }
+
     .step-number {
-      width: 20px; height: 20px;
-      background: #fee2e2;
+      width: 24px; 
+      height: 24px;
+      background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
       color: #b91c1c;
       border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 10px; font-weight: 800; flex-shrink: 0;
+      display: flex; 
+      align-items: center; 
+      justify-content: center;
+      font-size: 11px; 
+      font-weight: 800; 
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(185, 28, 28, 0.15);
+    }
+
+    /* Button Styles */
+    .btn-submit-premium {
+      background: linear-gradient(135deg, #ef4444 0%, #c53030 50%, #b91c1c 100%);
+      box-shadow: 0 12px 24px -6px rgba(239, 68, 68, 0.35);
+      position: relative;
+      overflow: hidden;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-submit-premium::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .btn-submit-premium:hover::before {
+      left: 100%;
+    }
+
+    .btn-submit-premium:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -8px rgba(239, 68, 68, 0.45);
+    }
+
+    .btn-submit-premium:active {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 16px -4px rgba(239, 68, 68, 0.3);
+    }
+
+    .btn-add-soft {
+      background: linear-gradient(135deg, #fff5f5 0%, #fef2f2 100%);
+      color: #dc2626;
+      border: 1.5px solid #fecaca;
+      box-shadow: 0 4px 12px -4px rgba(220, 38, 38, 0.1);
+    }
+
+    .btn-add-soft:hover {
+      background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+      color: white;
+      border-color: transparent;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px -6px rgba(220, 38, 38, 0.3);
+    }
+
+    .btn-add-soft:active {
+      transform: translateY(0);
     }
   </style>
  </head>
  <body class="text-slate-800 antialiased h-full">
   <div id="app" class="min-h-screen flex flex-col">
    
-   <header class="bg-white/80 border-b border-slate-200 sticky top-0 z-50 backdrop-blur-md">
-    <div class="max-w-4xl mx-auto px-5 py-4 flex items-center justify-between">
+   <header class="bg-white/60 border-b border-slate-200/40 sticky top-0 z-50 backdrop-blur-xl shadow-sm">
+    <div class="max-w-4xl mx-auto px-5 py-5 flex items-center justify-between">
      <div class="flex items-center gap-4">
-      <div class="w-11 h-11 bg-red-600 rounded-xl flex items-center justify-center shadow-lg shadow-red-200 rotate-3 group hover:rotate-0 transition-transform">
+      <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-red-700 rounded-2xl flex items-center justify-center shadow-lg shadow-red-200/50 hover:shadow-red-300/60 hover:scale-105 transition-all">
        <i data-lucide="shield" class="text-white w-6 h-6"></i>
       </div>
       <div>
-       <h1 class="text-lg font-extrabold text-slate-900 leading-none">E-Kendaraan</h1>
-       <p class="text-[10px] text-slate-500 font-bold uppercase tracking-tighter mt-1">SMAN 4 Pekalongan</p>
+       <h1 class="text-xl font-black text-slate-900 leading-none tracking-tight">E-Kendaraan</h1>
+       <p class="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-1.5">SMAN 4 Pekalongan</p>
       </div>
      </div>
-     <div class="flex items-center gap-2 text-[10px] font-bold text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-100">
-       <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> ONLINE
+     <div class="flex items-center gap-2 text-[10px] font-bold text-emerald-600 bg-emerald-50/80 px-4 py-2 rounded-full border border-emerald-200/50 backdrop-blur-sm">
+       <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> ONLINE
      </div>
     </div>
    </header>
 
    <main class="flex-1 max-w-4xl mx-auto w-full py-8 px-5">
     
-    <section class="glass-card rounded-3xl p-6 mb-8 border-l-4 border-l-red-600 shadow-xl shadow-slate-100 fade-in">
-     <div class="flex items-center gap-3 mb-5">
-      <div class="bg-red-100 p-2 rounded-lg">
+    <section class="glass-card rounded-3xl p-8 mb-8 border-l-4 border-l-red-600 shadow-xl shadow-red-100/20 fade-in hover:shadow-xl hover:shadow-red-100/40 transition-all">
+     <div class="flex items-center gap-3 mb-6">
+      <div class="bg-gradient-to-br from-red-100 to-red-50 p-3 rounded-xl shadow-sm">
         <i data-lucide="info" class="text-red-600 w-5 h-5"></i>
       </div>
-      <h2 class="font-extrabold text-sm text-slate-900 tracking-tight uppercase">BACA KETENTUAN!</h2>
+      <h2 class="font-extrabold text-base text-slate-900 tracking-tight uppercase">Persyaratan Pengisian Form</h2>
      </div>
      
-     <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
+     <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
        <div class="instruction-step">
          <div class="step-number">1</div>
-         <p class="text-[11px] text-slate-600 leading-relaxed"><span class="font-bold text-slate-800 uppercase">Nama & Alamat:</span> Pilih identitas resmi dan isi alamat domisili saat ini secara lengkap.</p>
+         <div>
+           <p class="text-[11px] text-slate-600 leading-relaxed"><span class="font-bold text-slate-800">Nama & Alamat (WAJIB):</span> Pilih identitas resmi dan isi alamat domisili saat ini secara lengkap.</p>
+         </div>
        </div>
        <div class="instruction-step">
          <div class="step-number">2</div>
-         <p class="text-[11px] text-slate-600 leading-relaxed"><span class="font-bold text-slate-800 uppercase">Plat Nomor:</span> Wajib KAPITAL sesuai STNK (Contoh: G 1234 WA).</p>
+         <div>
+           <p class="text-[11px] text-slate-600 leading-relaxed"><span class="font-bold text-slate-800">Plat Nomor (WAJIB):</span> Masukkan dalam huruf KAPITAL sesuai STNK. Contoh: G 1234 WA</p>
+         </div>
        </div>
        <div class="instruction-step">
          <div class="step-number">3</div>
-         <p class="text-[11px] text-slate-600 leading-relaxed"><span class="font-bold text-slate-800 uppercase">Status:</span> <b>Dimiliki</b> (Pribadi), <b>Dikuasai</b> (An. orang lain), <b>Digunakan</b> (Hanya pemakai).</p>
+         <div>
+           <p class="text-[11px] text-slate-600 leading-relaxed"><span class="font-bold text-slate-800">Status Kepemilikan (WAJIB):</span> Pilih salah satu - Dimiliki (Pribadi), Dikuasai (An. orang lain), atau Digunakan (Hanya pemakai).</p>
+         </div>
        </div>
        <div class="instruction-step">
          <div class="step-number">4</div>
-         <p class="text-[11px] text-slate-600 leading-relaxed"><span class="font-bold text-slate-800 uppercase">Kontak:</span> Masukkan nomor WhatsApp aktif untuk keperluan koordinasi parkir/keamanan.</p>
+         <div>
+           <p class="text-[11px] text-slate-600 leading-relaxed"><span class="font-bold text-slate-800">Kontak WhatsApp (WAJIB):</span> Masukkan nomor aktif untuk koordinasi parkir dan keamanan.</p>
+         </div>
        </div>
      </div>
     </section>
 
-    <section class="glass-card rounded-[2rem] shadow-2xl shadow-slate-200 overflow-hidden fade-in border border-slate-200">
-     <div class="p-6 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
-      <h2 class="text-sm font-extrabold text-slate-900 flex items-center gap-2.5">
-       <i data-lucide="file-text" class="text-red-600 w-5 h-5"></i>
+    <section class="glass-card rounded-3xl shadow-2xl shadow-slate-200/30 overflow-hidden fade-in border border-slate-200/60 hover:shadow-2xl hover:shadow-slate-300/20 transition-all">
+     <div class="p-8 border-b border-slate-200/50 bg-gradient-to-r from-slate-50/80 to-slate-100/50 flex justify-between items-center backdrop-blur-sm">
+      <h2 class="text-base font-black text-slate-900 flex items-center gap-3 tracking-tight">
+       <div class="w-8 h-8 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center shadow-md">
+         <i data-lucide="file-text" class="text-white w-4 h-4"></i>
+       </div>
        Formulir Inventarisasi Pegawai
       </h2>
-      <span class="text-[10px] font-bold text-slate-400">BAGIAN KEPEGAWAIAN</span>
+      <span class="text-[9px] font-bold text-slate-400 bg-white/40 px-3 py-1.5 rounded-lg uppercase tracking-widest">Bagian Kepegawaian</span>
      </div>
 
-     <form id="staff-form" class="p-6 sm:p-10 space-y-8">
-      <div class="space-y-6">
+     <form id="staff-form" class="p-8 sm:p-12 space-y-10">
+      <div class="space-y-7">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-         <div class="space-y-2">
-          <label class="text-[11px] font-extrabold text-slate-500 uppercase ml-1">Nama Lengkap Pegawai</label>
-          <select id="f-nama" required class="w-full px-4 py-3.5 rounded-2xl border border-slate-200 text-sm bg-white input-focus font-medium">
+         <div class="space-y-2.5">
+          <label class="text-[10px] font-extrabold text-slate-500 uppercase ml-1 tracking-widest">Nama Lengkap Pegawai <span class="requirement-badge">WAJIB</span></label>
+          <select id="f-nama" required class="w-full px-4 py-3.5 rounded-2xl border border-slate-300/60 text-sm bg-white/80 input-focus font-medium shadow-sm hover:bg-white transition-all">
            <option value="">-- Pilih Nama Anda --</option>
           </select>
          </div>
-         <div class="space-y-2">
-          <label class="text-[11px] font-extrabold text-slate-500 uppercase ml-1">Nomor Induk Pegawai</label>
-          <input id="f-nip" type="text" readonly placeholder="Otomatis" class="w-full px-4 py-3.5 rounded-2xl border border-slate-200 text-sm bg-slate-50 text-slate-400 outline-none font-mono tracking-tighter">
+         <div class="space-y-2.5">
+          <label class="text-[10px] font-extrabold text-slate-500 uppercase ml-1 tracking-widest">Nomor Induk Pegawai <span class="requirement-badge">OTOMATIS</span></label>
+          <input id="f-nip" type="text" readonly placeholder="Otomatis" class="w-full px-4 py-3.5 rounded-2xl border border-slate-300/60 text-sm bg-slate-100/60 text-slate-500 outline-none font-mono tracking-wider font-semibold">
          </div>
         </div>
 
-        <div class="space-y-2">
-         <label class="text-[11px] font-extrabold text-slate-500 uppercase ml-1">Alamat Tinggal Sekarang</label>
+        <div class="space-y-2.5">
+         <label class="text-[10px] font-extrabold text-slate-500 uppercase ml-1 tracking-widest">Alamat Tinggal Sekarang <span class="requirement-badge">WAJIB</span></label>
          <div class="relative">
-           <i data-lucide="map-pin" class="absolute left-4 top-3.5 text-slate-400 w-4 h-4"></i>
-           <input id="f-alamat" type="text" required placeholder="Masukkan alamat lengkap" class="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-slate-200 text-sm bg-white input-focus font-medium">
+           <i data-lucide="map-pin" class="absolute left-4 top-4 text-slate-400 w-4 h-4"></i>
+           <input id="f-alamat" type="text" required placeholder="Masukkan alamat lengkap dan jelas" class="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-slate-300/60 text-sm bg-white/80 input-focus font-medium shadow-sm hover:bg-white transition-all">
          </div>
         </div>
       </div>
 
-      <hr class="border-slate-100">
+      <div class="h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
 
-      <div class="space-y-6">
+      <div class="space-y-7">
        <div class="flex items-center justify-between">
-        <div class="space-y-0.5">
-          <h3 class="text-sm font-extrabold text-slate-900 tracking-tight">Data Unit Kendaraan</h3>
-          <p class="text-[10px] text-slate-400 font-medium italic">Klik tombol untuk menambah data</p>
+        <div class="space-y-1">
+          <h3 class="text-base font-extrabold text-slate-900 tracking-tight">Data Unit Kendaraan</h3>
+          <p class="text-[10px] text-slate-400 font-medium">Tambahkan minimal 1 kendaraan yang Anda gunakan</p>
         </div>
-        <button type="button" id="btn-add-vehicle" class="btn-add-soft px-5 py-2.5 rounded-xl text-[11px] font-bold flex items-center gap-2 transition-all shadow-sm">
+        <button type="button" id="btn-add-vehicle" class="btn-add-soft px-6 py-3 rounded-xl text-[11px] font-bold flex items-center gap-2.5 transition-all shadow-sm">
          <i data-lucide="plus-circle" class="w-4 h-4"></i> TAMBAH KENDARAAN
         </button>
        </div>
        
        <div id="vehicles-container" class="grid grid-cols-1 gap-4"></div>
 
-       <div id="empty-vehicle-state" class="group text-center py-12 border-2 border-dashed border-slate-200 rounded-3xl bg-slate-50/50">
-        <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm border border-slate-100 group-hover:scale-110 transition-transform">
-          <i data-lucide="car" class="text-slate-300 w-7 h-7"></i>
+       <div id="empty-vehicle-state" class="group text-center py-16 border-2 border-dashed border-slate-300/40 rounded-3xl bg-gradient-to-b from-slate-50/80 to-slate-50/40 hover:border-slate-300/60 transition-all">
+        <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-5 shadow-md border border-slate-200/50 group-hover:scale-110 group-hover:shadow-lg transition-all">
+          <i data-lucide="car" class="text-slate-300 w-8 h-8"></i>
         </div>
-        <p class="text-xs text-slate-400 font-bold uppercase tracking-widest">Belum ada kendaraan</p>
+        <p class="text-xs text-slate-400 font-bold uppercase tracking-widest">Belum ada kendaraan ditambahkan</p>
        </div>
       </div>
 
-      <div class="pt-8 pb-6">
-       <button id="btn-submit" type="submit" class="btn-submit-premium w-full text-white font-extrabold text-lg py-8 rounded-3xl flex items-center justify-center gap-4 tracking-[0.3em] transition-all">
-        <i data-lucide="check-square" class="w-7 h-7"></i>
+      <div class="pt-10 pb-2">
+       <button id="btn-submit" type="submit" class="btn-submit-premium w-full text-white font-extrabold text-sm py-3.5 rounded-2xl flex items-center justify-center gap-2.5 tracking-wider transition-all shadow-lg">
+        <i data-lucide="check-square" class="w-4 h-4"></i>
         SUBMIT DATA SEKARANG
        </button>
       </div>
      </form>
     </section>
     
-    <footer class="mt-16 mb-12 text-center">
-     <p class="text-[10px] text-slate-400 font-bold tracking-[0.3em] uppercase">Development by Tim IT SMAN 4 Pekalongan</p>
+    <footer class="mt-20 mb-16 text-center">
+     <p class="text-[9px] text-slate-400 font-bold tracking-widest uppercase">Development by Tim IT SMAN 4 Pekalongan</p>
     </footer>
    </main>
   </div>
@@ -286,44 +343,46 @@
       document.getElementById('empty-vehicle-state').classList.add('hidden');
       const id = `v-${Date.now()}`;
       const html = `
-        <div id="${id}" class="bg-slate-50/80 border border-slate-200 rounded-[1.5rem] p-5 sm:p-7 space-y-6 relative fade-in">
-          <button type="button" onclick="removeVehicle('${id}')" class="absolute top-5 right-5 w-8 h-8 flex items-center justify-center rounded-full bg-white border border-slate-100 text-slate-400 hover:text-red-600 shadow-sm transition-all hover:bg-red-50">
+        <div id="${id}" class="bg-gradient-to-br from-white/90 to-slate-50/80 border border-slate-200/70 rounded-2xl p-6 sm:p-8 space-y-6 relative fade-in shadow-sm hover:shadow-md hover:border-slate-300/50 transition-all group">
+          <button type="button" onclick="removeVehicle('${id}')" class="absolute top-4 right-4 w-9 h-9 flex items-center justify-center rounded-lg bg-slate-100 border border-slate-200 text-slate-400 hover:text-red-600 hover:bg-red-50 hover:border-red-300 shadow-sm transition-all font-bold opacity-0 group-hover:opacity-100">
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
           
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            <div class="space-y-1.5">
-              <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest ml-1">Kategori Unit</label>
-              <select class="v-jenis w-full px-4 py-3 rounded-2xl border border-slate-200 text-sm bg-white input-focus font-medium">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="space-y-2">
+              <label class="text-[9px] font-extrabold text-slate-500 uppercase tracking-wider ml-1">Kategori Unit <span style="color:#b91c1c;font-weight:700;">*</span></label>
+              <select class="v-jenis w-full px-4 py-3.5 rounded-xl border border-slate-300/60 text-sm bg-white/80 input-focus font-medium shadow-sm hover:bg-white transition-all">
                 <option value="Motor">Sepeda Motor</option>
                 <option value="Mobil">Mobil</option>
                 <option value="Lainnya">Lainnya</option>
               </select>
             </div>
-            <div class="space-y-1.5">
-              <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest ml-1">No. Polisi (STNK)</label>
-              <input type="text" class="v-nopol w-full px-4 py-3 rounded-2xl border border-slate-200 text-sm bg-white input-focus uppercase font-mono tracking-wider font-bold" placeholder="G 0000 XX">
+            <div class="space-y-2">
+              <label class="text-[9px] font-extrabold text-slate-500 uppercase tracking-wider ml-1">No. Polisi STNK <span style="color:#b91c1c;font-weight:700;">*</span></label>
+              <input type="text" class="v-nopol w-full px-4 py-3.5 rounded-xl border border-slate-300/60 text-sm bg-white/80 input-focus uppercase font-mono tracking-wider font-bold shadow-sm hover:bg-white transition-all" placeholder="G 0000 XX">
             </div>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            <div class="space-y-1.5">
-              <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest ml-1">Status Kepemilikan</label>
-              <select class="v-status w-full px-4 py-3 rounded-2xl border border-slate-200 text-sm bg-white input-focus font-medium">
+          <div class="h-px bg-gradient-to-r from-transparent via-slate-200/50 to-transparent"></div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="space-y-2">
+              <label class="text-[9px] font-extrabold text-slate-500 uppercase tracking-wider ml-1">Status Kepemilikan <span style="color:#b91c1c;font-weight:700;">*</span></label>
+              <select class="v-status w-full px-4 py-3.5 rounded-xl border border-slate-300/60 text-sm bg-white/80 input-focus font-medium shadow-sm hover:bg-white transition-all">
                 <option value="Dimiliki">Milik Sendiri (An. Pegawai)</option>
                 <option value="Dikuasai">Dikuasai (An. Orang Lain)</option>
                 <option value="Digunakan">Digunakan (Hanya Pemakai)</option>
               </select>
             </div>
-            <div class="space-y-1.5">
-              <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest ml-1">No. WhatsApp Aktif</label>
-              <input type="tel" class="v-hp w-full px-4 py-3 rounded-2xl border border-slate-200 text-sm bg-white input-focus font-medium" placeholder="08xxxxxxxx">
+            <div class="space-y-2">
+              <label class="text-[9px] font-extrabold text-slate-500 uppercase tracking-wider ml-1">No. WhatsApp <span style="color:#b91c1c;font-weight:700;">*</span></label>
+              <input type="tel" class="v-hp w-full px-4 py-3.5 rounded-xl border border-slate-300/60 text-sm bg-white/80 input-focus font-medium shadow-sm hover:bg-white transition-all" placeholder="08xxxxxxxx">
             </div>
           </div>
 
-          <div class="space-y-1.5">
-            <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest ml-1">Keterangan Khusus</label>
-            <input type="text" class="v-ket w-full px-4 py-3 rounded-2xl border border-slate-200 text-sm bg-white input-focus font-medium" placeholder="Contoh: Di luar kota, rusak, hilang, dll">
+          <div class="space-y-2">
+            <label class="text-[9px] font-extrabold text-slate-500 uppercase tracking-wider ml-1">Keterangan Khusus (Opsional)</label>
+            <input type="text" class="v-ket w-full px-4 py-3.5 rounded-xl border border-slate-300/60 text-sm bg-white/80 input-focus font-medium shadow-sm hover:bg-white transition-all" placeholder="Contoh: Di luar kota, kondisi rusak, dll">
           </div>
         </div>
       `;
@@ -355,7 +414,7 @@
       }
 
       btn.disabled = true;
-      btn.innerHTML = `<span class="animate-pulse tracking-widest uppercase text-xs">Processing...</span>`;
+      btn.innerHTML = `<span class="inline-flex items-center gap-2 tracking-widest uppercase text-xs"><span class="inline-block w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>Processing<span class="inline-block w-1.5 h-1.5 rounded-full bg-white animate-pulse" style="animation-delay:0.2s"></span><span class="inline-block w-1.5 h-1.5 rounded-full bg-white animate-pulse" style="animation-delay:0.4s"></span></span>`;
 
       const vehicles = Array.from(vehicleEls).map(v => ({
         jenis: v.querySelector('.v-jenis').value,
@@ -402,7 +461,7 @@
         Swal.fire({ icon: 'error', title: 'Gagal!', text: 'Koneksi terputus. Silakan periksa jaringan Anda.' });
       } finally {
         btn.disabled = false;
-        btn.innerHTML = `<i data-lucide="check-square" class="w-5 h-5"></i> SUBMIT DATA SEKARANG`;
+        btn.innerHTML = `<i data-lucide="check-square" class="w-4 h-4"></i> SUBMIT DATA SEKARANG`;
         lucide.createIcons();
       }
     });
