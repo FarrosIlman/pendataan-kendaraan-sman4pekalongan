@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pendataan Kendaraan Pegawai - SMAN 4 Pekalongan</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .fade-in { animation: fadeIn 0.4s ease-out; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+    .input-focus:focus { border-color: #DC2626 !important; box-shadow: 0 0 0 3px rgba(220,38,38,0.1) !important; outline: none; }
+    .btn-primary { background-color: #DC2626; transition: all 0.2s; }
+    .btn-primary:hover { background-color: #B91C1C; transform: translateY(-1px); }
+    .btn-primary:active { transform: translateY(0); }
+  </style>
+ </head>
+ <body class="bg-gray-50 text-gray-800 antialiased h-full">
+  <div id="app" class="min-h-screen flex flex-col">
+   
+   <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+     <div class="flex items-center gap-3">
+      <div class="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center flex-shrink-0">
+       <i data-lucide="shield" class="text-white" style="width:22px;height:22px;"></i>
+      </div>
+      <div>
+       <h1 class="text-base sm:text-lg font-bold text-gray-900 leading-tight">Pendataan Kendaraan</h1>
+       <p class="text-[10px] sm:text-xs text-gray-500 font-medium uppercase tracking-wider">SMA Negeri 4 Pekalongan</p>
+      </div>
+     </div>
+     <div class="flex items-center gap-1.5 text-[10px] font-bold text-green-600 bg-green-50 px-3 py-1.5 rounded-full">
+       <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> SISTEM ONLINE
+     </div>
+    </div>
+   </header>
+
+   <main class="flex-1 max-w-4xl mx-auto w-full py-6 px-4">
+    
+    <section class="bg-blue-50 border border-blue-100 rounded-2xl p-5 mb-6 fade-in">
+     <div class="flex gap-3">
+      <i data-lucide="info" class="text-blue-600 flex-shrink-0 mt-1" style="width:20px;height:20px;"></i>
+      <div>
+       <h3 class="font-bold text-blue-900 text-sm mb-1">Instruksi Pengisian</h3>
+       <p class="text-xs text-blue-800 leading-relaxed">
+        Pilih nama Anda, isi alamat domisili, lalu tambahkan data kendaraan (bisa lebih dari satu). Gunakan <strong>HURUF KAPITAL</strong> untuk Nomor Polisi.
+       </p>
+      </div>
+     </div>
+    </section>
+
+    <section class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden fade-in">
+     <div class="p-5 border-b border-gray-100 bg-gray-50/50">
+      <h2 class="text-sm font-bold text-gray-900 flex items-center gap-2">
+       <i data-lucide="user-plus" class="text-red-600" style="width:18px;height:18px;"></i>
+       Formulir Data Pegawai
+      </h2>
+     </div>
+
+     <form id="staff-form" class="p-5 sm:p-8 space-y-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+       <div class="space-y-1.5">
+        <label class="text-xs font-bold text-gray-700 uppercase">Nama Pegawai <span class="text-red-500">*</span></label>
+        <select id="f-nama" required class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm bg-white input-focus">
+         <option value="">-- Pilih Nama --</option>
+        </select>
+       </div>
+       <div class="space-y-1.5">
+        <label class="text-xs font-bold text-gray-700 uppercase">NIP / ID</label>
+        <input id="f-nip" type="text" readonly placeholder="Otomatis" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm bg-gray-50 text-gray-500 outline-none">
+       </div>
+      </div>
+
+      <div class="space-y-1.5">
+       <label class="text-xs font-bold text-gray-700 uppercase">Alamat Domisili <span class="text-red-500">*</span></label>
+       <input id="f-alamat" type="text" required placeholder="Alamat lengkap tempat tinggal saat ini" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm bg-white input-focus">
+      </div>
+
+      <div class="pt-4">
+       <div class="flex items-center justify-between mb-4">
+        <h3 class="text-xs font-extrabold text-gray-400 uppercase tracking-widest">Daftar Kendaraan</h3>
+        <button type="button" id="btn-add-vehicle" class="text-xs font-bold text-red-600 flex items-center gap-1 hover:underline transition-all">
+         <i data-lucide="plus-circle" style="width:16px;height:16px;"></i> Tambah Kendaraan
+        </button>
+       </div>
+       
+       <div id="vehicles-container" class="space-y-4"></div>
+
+       <div id="empty-vehicle-state" class="text-center py-10 border-2 border-dashed border-gray-100 rounded-2xl bg-gray-50/30">
+        <i data-lucide="car" class="mx-auto text-gray-300 mb-2" style="width:32px;height:32px;"></i>
+        <p class="text-xs text-gray-400 font-medium">Belum ada kendaraan yang ditambahkan</p>
+       </div>
+      </div>
+
+      <div class="pt-6 border-t border-gray-100">
+       <button id="btn-submit" type="submit" class="btn-primary w-full text-white font-bold text-sm py-4 rounded-xl shadow-lg shadow-red-100 flex items-center justify-center gap-2 active:scale-[0.98]">
+        <i data-lucide="save" style="width:18px;height:18px;"></i>
+        SIMPAN DATA SEKARANG
+       </button>
+       <div id="form-msg" class="hidden mt-4 text-xs font-bold text-center py-4 rounded-xl transition-all"></div>
+      </div>
+     </form>
+    </section>
+    
+    <footer class="mt-12 mb-12 text-center">
+     <p class="text-[10px] text-gray-400 font-bold tracking-[0.2em] uppercase">© 2026 TIM IT SMAN 4 PEKALONGAN</p>
+    </footer>
+   </main>
+  </div>
+
+  <script>
+    // 1. KONFIGURASI: Ganti dengan URL Web App Google Script Anda
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbynRdKuln82L458kIJUxCyvGlASByLzuXC8eCO1Z8zy849mZjSjNi2xv6IMQP8FhYbI/exec";
+
+    // 2. DATA PEGAWAI
+    const hardcodedTeachers = [
+      { nama: "WACHID MUCHAROM, S.Pd, M.Pd", nip: "19700308 199702 1 002" },
+      { nama: "SUHADI, M.Pd.", nip: "19690429 199403 1 004" },
+      { nama: "WINARDI, S.Pd.", nip: "19721107 199802 1 002" },
+      { nama: "RETNO PUJI ASTUTI, M.Pd.", nip: "19711226 199802 2 003" },
+      { nama: "Drs. HASANUDDIN, MA.", nip: "19671014 199503 1 002" },
+      { nama: "AKHMAD FAUZI, S.Pd.", nip: "19690720 199903 1 008" },
+      { nama: "MAS'ULAH, S.Pd. M.Pd", nip: "19740310 200501 2 007" },
+      { nama: "HASTUTI RUMANTI, M.Pd.", nip: "19700822 199802 2 005" },
+      { nama: "IDA LESTARI, M.Pd", nip: "19731112 199802 2 004" },
+      { nama: "HIDAYANUR, M.Pd", nip: "19680715 200212 2 006" },
+      { nama: "EDY ASTANTO, S.Pd.", nip: "19691116 200312 1 002" },
+      { nama: "NEFI KRISTIANAWATI, S.Pd.", nip: "19740308 200701 2 010" },
+      { nama: "AZIZAH, S.Pd.", nip: "19710219 200501 2 011" },
+      { nama: "EDI KUSHARTONO, S.Pd.", nip: "19710520 200501 1 008" },
+      { nama: "ROFI SETYAJI, S.Pd.", nip: "19751117 200212 1 002" },
+      { nama: "ANIK TUNIATI, S.Pd.", nip: "19760602 200312 2 012" },
+      { nama: "SITI HAJAR,S.Sos.", nip: "19720903 200501 2 007" },
+      { nama: "TRISNI ISWAHYUNI, S.Psi.", nip: "19760621 200501 2 010" },
+      { nama: "RISTIYAWATI, S.Pd, M.Pd.", nip: "19740424 200701 2 016" },
+      { nama: "SUDRIYAH, S.Pd.", nip: "19720527 200604 2 013" },
+      { nama: "EVAH NAFILATI, S.Pd.", nip: "19800505 200801 2 027" },
+      { nama: "RIMA FATMAWATI, S.Pd.", nip: "19790630 201406 2 001" },
+      { nama: "SANTI SUSMIATUN, S.Pd.", nip: "19800731 201406 2 001" },
+      { nama: "MELA AGUSTINA, S.Pd", nip: "19890815 201902 2 010" },
+      { nama: "WAHIDA LAILATUL LIZA, S.Pd", nip: "19900722 201902 2 008" },
+      { nama: "DIAH RETNONINGRUM, S.Pd", nip: "19900812 201902 2 006" },
+      { nama: "SAMSIATUL MAKRIFA, S.Pd", nip: "19910129 201902 2 004" },
+      { nama: "MUHAMMAD ZAHRUL FIKRI, M.Pd", nip: "19910628 201902 1 004" },
+      { nama: "EKO SUSANTO, S.Pd", nip: "19910818 201902 1 007" },
+      { nama: "MUH. AGUS HIDAYATULLOH, S.Pd", nip: "19910830 201902 1 006" },
+      { nama: "ZAKIYATUL FAKHIROH, S.Pd.I", nip: "19911123 201902 2 006" },
+      { nama: "SRI EKA YUSICA LARASATI, S.Pd", nip: "19920806 201902 2 009" },
+      { nama: "SITI LU'AMAH, S.Pd.I", nip: "19921003 201902 2 007" },
+      { nama: "HANY TRIHAYUNINGTYAS, S.Pd", nip: "19921120 201902 2 014" },
+      { nama: "SETYOWATI, S.Pd", nip: "19921017 201902 2 003" },
+      { nama: "PEBRIAN RULLY AZHARI, S.Pd", nip: "19930218 201902 1 003" },
+      { nama: "RUMALAH, S.Pd", nip: "19930623 201902 2 009" },
+      { nama: "ELI LUSIYANA, S.Pd.", nip: "19930914 201902 2 008" },
+      { nama: "MUHAMMAD FIRMANSYAH, S.Pd", nip: "19940130 201902 1 007" },
+      { nama: "MARFUAH UNSAYAINI, S.Pd, M.Pd", nip: "19940531 201902 2 009" },
+      { nama: "SITI NUR WIDYANINGSIH, S.Pd", nip: "19940721 201902 2 006" },
+      { nama: "EKA ASSYATUN NAFISAH, S.Pd", nip: "19960316 201902 2 007" },
+      { nama: "DHONY HERMAWAN, S.E.", nip: "19810121 202421 1 003" },
+      { nama: "DWI ILMIANI, S.Pd, M.Pd.", nip: "19920222 202321 2 025" },
+      { nama: "FENDRA BUDI PRASOJO, S.Pd.", nip: "19920223 202321 1 004" },
+      { nama: "SYAEFUL, S.Pd", nip: "19930115 202321 1 006" },
+      { nama: "SENENG YULI HASTUTI, S.Pd", nip: "19800712 202521 2 043" },
+      { nama: "NOVI SAFITRI, S.Pd.", nip: "19901115 202521 2 136" },
+      { nama: "HENDRO WIIBOWO, S.Pd", nip: "19950521 202521 1 070" },
+      { nama: "NENSY LARASATI, S.Pd", nip: "-" },
+      { nama: "BAGUS NUGROHO, S.Pd", nip: "-" },
+      { nama: "MUHAMMAD ROZI, S.Pd", nip: "-" },
+      { nama: "AMAT DARYONO, S.Pd", nip: "19710814 199903 1 010" },
+      { nama: "TITI MAHAWATI, A.Md.", nip: "19810830 200501 2 007" },
+      { nama: "NUR CHAMIDAH, A.Md", nip: "19730601 201406 2 001" },
+      { nama: "TOHA AMIRUDIN", nip: "19690804 202521 1 019" },
+      { nama: "LAILI YULIANA, A.Md", nip: "19910501 202521 2 116" },
+      { nama: "SITI ZULICHATUN, S.Sii", nip: "19940728 202521 2 054" },
+      { nama: "WARJO", nip: "19690506 202521 1 030" },
+      { nama: "TOYIB HADI", nip: "19781023 202521 1 024" },
+      { nama: "MUH. RIZAL KURNIAWAN", nip: "19900922 202521 1 065" },
+      { nama: "AZAH UYUN WIDIYARTI, A.Md.Keb.", nip: "-" },
+      { nama: "MUCHAMMAD FARROS ILMAN HAQ", nip: "-" }
+    ]
+
+    // Initialize App
+    document.addEventListener('DOMContentLoaded', () => {
+      initTeacherDropdown();
+      lucide.createIcons();
+    });
+
+    function initTeacherDropdown() {
+      const select = document.getElementById('f-nama');
+      // Sortir nama biar rapi
+      hardcodedTeachers.sort((a,b) => a.nama.localeCompare(b.nama)).forEach(t => {
+        const opt = document.createElement('option');
+        opt.value = t.nama;
+        opt.dataset.nip = t.nip;
+        opt.textContent = t.nama;
+        select.appendChild(opt);
+      });
+    }
+
+    // Auto-fill NIP
+    document.getElementById('f-nama').addEventListener('change', (e) => {
+      const nip = e.target.options[e.target.selectedIndex].dataset.nip || '';
+      document.getElementById('f-nip').value = nip;
+    });
+
+    // Add Vehicle Row
+    document.getElementById('btn-add-vehicle').addEventListener('click', () => {
+      document.getElementById('empty-vehicle-state').classList.add('hidden');
+      const id = `v-${Date.now()}`;
+      const html = `
+        <div id="${id}" class="bg-gray-50 border border-gray-200 rounded-2xl p-4 sm:p-5 space-y-4 relative fade-in shadow-sm">
+          <button type="button" onclick="removeVehicle('${id}')" class="absolute top-4 right-4 text-gray-400 hover:text-red-600 transition-colors">
+            <i data-lucide="trash-2" style="width:18px;height:18px;"></i>
+          </button>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="text-[10px] font-extrabold text-gray-500 uppercase tracking-wider">Jenis Kendaraan</label>
+              <select class="v-jenis w-full mt-1.5 px-3 py-2.5 rounded-lg border border-gray-200 text-sm bg-white input-focus" required>
+                <option value="Motor">Motor</option>
+                <option value="Mobil">Mobil</option>
+                <option value="Lainnya">Lainnya</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-[10px] font-extrabold text-gray-500 uppercase tracking-wider">No. Polisi (KAPITAL)</label>
+              <input type="text" class="v-nopol w-full mt-1.5 px-3 py-2.5 rounded-lg border border-gray-200 text-sm bg-white input-focus uppercase" placeholder="G 1234 XX" required>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="text-[10px] font-extrabold text-gray-500 uppercase tracking-wider">Status Pemakaian</label>
+              <select class="v-status w-full mt-1.5 px-3 py-2.5 rounded-lg border border-gray-200 text-sm bg-white input-focus" required>
+                <option value="Dimiliki">Milik Pribadi</option>
+                <option value="Digunakan">Hanya Digunakan</option>
+                <option value="Dikuasai">Dikuasai (Dinas/Lainnya)</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-[10px] font-extrabold text-gray-500 uppercase tracking-wider">No. HP / WhatsApp</label>
+              <input type="tel" class="v-hp w-full mt-1.5 px-3 py-2.5 rounded-lg border border-gray-200 text-sm bg-white input-focus" placeholder="08xxxx" required>
+            </div>
+          </div>
+
+          <div>
+            <label class="text-[10px] font-extrabold text-gray-500 uppercase tracking-wider">Keterangan (Warna/Merk/Kondisi)</label>
+            <input type="text" class="v-ket w-full mt-1.5 px-3 py-2.5 rounded-lg border border-gray-200 text-sm bg-white input-focus" placeholder="Misal: Vario Hitam / Pajak Hidup">
+          </div>
+        </div>
+      `;
+      document.getElementById('vehicles-container').insertAdjacentHTML('beforeend', html);
+      lucide.createIcons();
+    });
+
+    window.removeVehicle = (id) => {
+      document.getElementById(id).remove();
+      if (document.querySelectorAll('#vehicles-container > div').length === 0) {
+        document.getElementById('empty-vehicle-state').classList.remove('hidden');
+      }
+    };
+
+    // Handle Form Submit
+    document.getElementById('staff-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('btn-submit');
+      const msg = document.getElementById('form-msg');
+      const vehicleEls = document.querySelectorAll('#vehicles-container > div');
+      
+      if (vehicleEls.length === 0) {
+        alert("Silakan tambah minimal 1 data kendaraan.");
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = `<span class="inline-block animate-spin mr-2">◌</span> MENGIRIM DATA...`;
+
+      const vehicles = Array.from(vehicleEls).map(v => ({
+        jenis: v.querySelector('.v-jenis').value,
+        nopol: v.querySelector('.v-nopol').value.toUpperCase(),
+        status: v.querySelector('.v-status').value,
+        hp: v.querySelector('.v-hp').value,
+        ket: v.querySelector('.v-ket').value || "-"
+      }));
+
+      const record = {
+        nama_pegawai: document.getElementById('f-nama').value,
+        nip: document.getElementById('f-nip').value,
+        alamat: document.getElementById('f-alamat').value,
+        jenis_kendaraan: vehicles.map(v => v.jenis).join('; '),
+        nomor_polisi: vehicles.map(v => v.nopol).join('; '),
+        nomor_telepon: vehicles.map(v => v.hp).join('; '),
+        status: vehicles.map(v => v.status).join('; '),
+        keterangan: vehicles.map(v => v.ket).join('; '),
+        created_at: new Date().toLocaleString('id-ID')
+      };
+
+      try {
+        // Menggunakan Fetch API ke Google Apps Script
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors', 
+          cache: 'no-cache',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record)
+        });
+
+        // Sukses Flow
+        msg.innerHTML = `<i data-lucide="check-circle" class="inline mr-2" style="width:16px;height:16px;"></i> Data Berhasil Disimpan di Google Sheets!`;
+        msg.className = "mt-4 text-xs font-bold text-center py-4 rounded-xl bg-green-50 text-green-600 block fade-in";
+        
+        document.getElementById('staff-form').reset();
+        document.getElementById('vehicles-container').innerHTML = '';
+        document.getElementById('empty-vehicle-state').classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        lucide.createIcons();
+
+      } catch (err) {
+        msg.innerHTML = `<i data-lucide="alert-triangle" class="inline mr-2" style="width:16px;height:16px;"></i> Terjadi gangguan koneksi. Coba lagi.`;
+        msg.className = "mt-4 text-xs font-bold text-center py-4 rounded-xl bg-red-50 text-red-600 block fade-in";
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i data-lucide="save" style="width:18px;height:18px;"></i> SIMPAN DATA SEKARANG`;
+        lucide.createIcons();
+      }
+    });
+  </script>
+ </body>
+</html>
